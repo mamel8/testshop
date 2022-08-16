@@ -11,10 +11,8 @@ import java.time.LocalDateTime;
 
 @Service
 public class RegistrationService {
-
     private final PeopleRepository peopleRepository;
     private final PasswordEncoder passwordEncoder;
-
     @Autowired
     public RegistrationService(PeopleRepository peopleRepository, PasswordEncoder passwordEncoder) {
         this.peopleRepository = peopleRepository;
