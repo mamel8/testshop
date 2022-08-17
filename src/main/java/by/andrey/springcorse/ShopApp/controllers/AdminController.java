@@ -1,6 +1,5 @@
 package by.andrey.springcorse.ShopApp.controllers;
 
-
 import by.andrey.springcorse.ShopApp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +17,14 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-
     @GetMapping
     public void adminPage(){
         adminService.doAdminStuff();
     }
+
+    @GetMapping("/checkAll")
+    public void adminCheck(){
+        adminService.checkAllUsers();
+    }
+
 }

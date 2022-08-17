@@ -20,6 +20,7 @@ public class Person {
 
     @Column(name = "email")
     @Email
+    @Size(min = 5, message = "Enter your email")
     private String email;
 
     @Column(name = "registration")
@@ -33,16 +34,16 @@ public class Person {
     private String password;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private PersonRole role;
 
-    public String getRole() {
+    public PersonRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(PersonRole role) {
         this.role = role;
     }
-
 
     public Person() {
     }
@@ -70,7 +71,7 @@ public class Person {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Person(String name, String email, String phone, String role) {
+    public Person(String name, String email, String phone, PersonRole role) {
         this.name = name;
         this.email = email;
         this.phone = phone;
