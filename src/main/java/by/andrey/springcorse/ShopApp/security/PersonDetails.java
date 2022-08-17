@@ -1,6 +1,7 @@
 package by.andrey.springcorse.ShopApp.security;
 
 import by.andrey.springcorse.ShopApp.models.Person;
+import by.andrey.springcorse.ShopApp.models.PersonRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,8 @@ public class PersonDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-       return Collections.singletonList(new SimpleGrantedAuthority(person.getRole()));
+        String str = String.valueOf(person.getRole());
+       return Collections.singletonList(new SimpleGrantedAuthority(str));
     }
 
     @Override

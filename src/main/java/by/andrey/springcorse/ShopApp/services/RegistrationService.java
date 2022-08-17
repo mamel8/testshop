@@ -1,6 +1,7 @@
 package by.andrey.springcorse.ShopApp.services;
 
 import by.andrey.springcorse.ShopApp.models.Person;
+import by.andrey.springcorse.ShopApp.models.PersonRole;
 import by.andrey.springcorse.ShopApp.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +22,7 @@ public class RegistrationService {
     @Transactional
     public void register(Person person){
         person.setPassword(passwordEncoder.encode(person.getPassword()));
-        person.setRole("ROLE_USER");
+        person.setRole(PersonRole.USER);
         person.setRegistration(LocalDateTime.now());
         peopleRepository.save(person);
     }
