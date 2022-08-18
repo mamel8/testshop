@@ -3,6 +3,8 @@ package by.andrey.springcorse.ShopApp.config;
 import by.andrey.springcorse.ShopApp.services.PersonDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,8 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity
+@Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -27,16 +32,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //конфигурируем сам спринг секурити
         // конфигурируем авторизацию
         http.
-                 csrf().disable()
-         //      csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+               cors(Customizer.withDefaults()).
+                csrf().disable()
+                //      csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeRequests()
                 .antMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
-                .antMatchers("/auth/login", "/error", "/auth/registration", "/auth/checkAll").permitAll()  // разрешенный страницы для всех
+                .antMatchers("/auth/login", "/error", "/auth/registration", "/auth/check", "/auth/check/*").permitAll()  // разрешенный страницы для всех
                 .anyRequest().hasAnyRole("USER", "ADMIN")           //все остальные страницы доступны авторизированным
                 .and()
                 .formLogin().loginPage("/auth/registration") // стартует с этой страницы
                 .loginProcessingUrl("/process_login")               //сюда отправляются данные при входе (входящие поля должны быть обязательно username / password)
-                .defaultSuccessUrl("/auth/registration",  true)  // перекидывает сюда после удачного входа
+                .defaultSuccessUrl("/auth/registration", true)  // перекидывает сюда после удачного входа
                 .failureUrl("/auth/login?error")
                 .and()
                 .logout()
@@ -56,4 +62,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+  /*  @Bean
+    public WebMvcConfigurer corsConfig() {
+        return new WebMvcConfigurer(){
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000", "http://localhost:8080");
+            }
+        };
+    }*/
 }
+
+

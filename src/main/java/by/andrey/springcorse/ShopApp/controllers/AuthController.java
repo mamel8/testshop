@@ -2,6 +2,7 @@ package by.andrey.springcorse.ShopApp.controllers;
 
 import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.repositories.PeopleRepository;
+import by.andrey.springcorse.ShopApp.services.AdminService;
 import by.andrey.springcorse.ShopApp.services.RegistrationService;
 import by.andrey.springcorse.ShopApp.util.PersonErrorResponse;
 import by.andrey.springcorse.ShopApp.util.PersonNotCreatedException;
@@ -24,16 +25,25 @@ public class AuthController {
 
     private final PeopleRepository peopleRepository;
 
+    private final AdminService adminService;
+
     @Autowired
-    public AuthController(RegistrationService registrationService, PeopleRepository peopleRepository) {
+    public AuthController(RegistrationService registrationService, PeopleRepository peopleRepository, AdminService adminService) {
         this.registrationService = registrationService;
         this.peopleRepository = peopleRepository;
+        this.adminService = adminService;
     }
 
-    @GetMapping("/checkAll")                // ТЕСТ метод
-    public List<Person> adminCheck(){
+    @GetMapping("/check")                // ТЕСТ метод
+    public List<Person> adminCheck(){                       //TODO
        return peopleRepository.findAll();
     }
+
+    @GetMapping("/check/{id}")                              //TODO
+    public Person getPerson(@PathVariable("id") int id) {
+        return adminService.findById(id);
+    }
+
 
     @GetMapping("/login")
     public void loginPage() {
