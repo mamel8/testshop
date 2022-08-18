@@ -2,10 +2,12 @@ package by.andrey.springcorse.ShopApp.services;
 
 import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.repositories.PeopleRepository;
+import by.andrey.springcorse.ShopApp.util.PersonNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -24,5 +26,10 @@ public class AdminService {
     @PreAuthorize("hasRole('ADMIN')")
     public List<Person> checkAllUsers() {
         return peopleRepository.findAll();
+    }
+
+    public Person findById(int id) {
+        Optional<Person> foundPerson = peopleRepository.findById(id);
+        return foundPerson.orElseThrow(PersonNotFoundException::new);
     }
 }
