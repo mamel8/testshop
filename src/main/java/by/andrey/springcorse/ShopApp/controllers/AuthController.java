@@ -1,8 +1,7 @@
 package by.andrey.springcorse.ShopApp.controllers;
 
 import by.andrey.springcorse.ShopApp.dto.PersonDTO;
-import by.andrey.springcorse.ShopApp.repositories.PeopleRepository;
-import by.andrey.springcorse.ShopApp.services.PersonService;
+import by.andrey.springcorse.ShopApp.dto.PersonDtoService;
 import by.andrey.springcorse.ShopApp.services.RegistrationService;
 import by.andrey.springcorse.ShopApp.util.PersonErrorResponse;
 import by.andrey.springcorse.ShopApp.util.PersonNotCreatedException;
@@ -19,17 +18,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class  AuthController {
 
     private final RegistrationService registrationService;
 
-    private final PersonService personService;
+    private final PersonDtoService personDtoService;
 
 
     @Autowired
-    public AuthController(RegistrationService registrationService, PersonService personService) {
+    public AuthController(RegistrationService registrationService, PersonDtoService personDtoService) {
         this.registrationService = registrationService;
-        this.personService = personService;
+        this.personDtoService = personDtoService;
     }
 
     @GetMapping("/login")
@@ -52,7 +51,7 @@ public class AuthController {
             }
             throw new PersonNotCreatedException(errorMsg.toString());
         }
-        registrationService.register(personService.convertToPerson(personDTO));
+        registrationService.register(personDtoService.convertToPerson(personDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

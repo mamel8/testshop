@@ -9,25 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public class PersonService {
-
-    private final PeopleRepository peopleRepository;
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public PersonService(PeopleRepository peopleRepository, ModelMapper modelMapper) {
-        this.peopleRepository = peopleRepository;
-        this.modelMapper = modelMapper;
-    }
-
-    public Person convertToPerson(PersonDTO personDTO) {
-        return modelMapper.map(personDTO, Person.class);
-    }
-
-    public PersonDTO convertToPersonDTO(Person person){
-        return modelMapper.map(person, PersonDTO.class);
-    }
 
 
 }
