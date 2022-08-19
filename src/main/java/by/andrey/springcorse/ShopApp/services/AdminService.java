@@ -18,18 +18,19 @@ public class AdminService {
         this.peopleRepository = peopleRepository;
     }
 
- //   @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")           // ТЕСТ МЕТОД -------after DELETE
     public void doAdminStuff(){
         System.out.println("Only admin here");
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Person> checkAllUsers() {
-        return peopleRepository.findAll();
-    }
-
+ //   @PreAuthorize("hasRole('ADMIN')")
     public Person findById(int id) {
         Optional<Person> foundPerson = peopleRepository.findById(id);
         return foundPerson.orElseThrow(PersonNotFoundException::new);
+    }
+
+ //   @PreAuthorize("hasRole('ADMIN')")
+    public List<Person> findAll() {
+        return peopleRepository.findAll();
     }
 }
