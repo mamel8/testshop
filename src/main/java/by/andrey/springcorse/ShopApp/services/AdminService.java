@@ -18,7 +18,7 @@ public class AdminService {
         this.peopleRepository = peopleRepository;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+ //   @PreAuthorize("hasRole('ADMIN')")
     public void doAdminStuff(){
         System.out.println("Only admin here");
     }

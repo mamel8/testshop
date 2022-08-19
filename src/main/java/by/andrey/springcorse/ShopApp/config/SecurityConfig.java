@@ -34,10 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                cors(Customizer.withDefaults()).
                 csrf().disable()
-                //      csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+          //      csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeRequests()
-                .antMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
-                .antMatchers("/auth/login", "/error", "/auth/registration", "/auth/check", "/auth/check/*").permitAll()  // разрешенный страницы для всех
+
+             //   .antMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
+                .antMatchers("/**").permitAll()
+
+          //    .antMatchers("/auth/login", "/error", "/auth/registration", "/auth/check", "/auth/check/*").permitAll()  // разрешенный страницы для всех
                 .anyRequest().hasAnyRole("USER", "ADMIN")           //все остальные страницы доступны авторизированным
                 .and()
                 .formLogin().loginPage("/auth/registration") // стартует с этой страницы

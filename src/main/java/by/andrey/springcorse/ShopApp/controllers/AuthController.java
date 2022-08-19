@@ -1,5 +1,6 @@
 package by.andrey.springcorse.ShopApp.controllers;
 
+import by.andrey.springcorse.ShopApp.dto.PersonDTO;
 import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.repositories.PeopleRepository;
 import by.andrey.springcorse.ShopApp.services.AdminService;
@@ -7,6 +8,7 @@ import by.andrey.springcorse.ShopApp.services.RegistrationService;
 import by.andrey.springcorse.ShopApp.util.PersonErrorResponse;
 import by.andrey.springcorse.ShopApp.util.PersonNotCreatedException;
 import by.andrey.springcorse.ShopApp.util.PersonNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +27,16 @@ public class AuthController {
 
     private final PeopleRepository peopleRepository;
 
+    private final ModelMapper modelMapper;
+
     private final AdminService adminService;
 
     @Autowired
-    public AuthController(RegistrationService registrationService, PeopleRepository peopleRepository, AdminService adminService) {
+    public AuthController(RegistrationService registrationService, PeopleRepository peopleRepository,
+                          ModelMapper modelMapper, AdminService adminService) {
         this.registrationService = registrationService;
         this.peopleRepository = peopleRepository;
+        this.modelMapper = modelMapper;
         this.adminService = adminService;
     }
 
@@ -40,22 +46,20 @@ public class AuthController {
     }
 
     @GetMapping("/check/{id}")                              //TODO
-    public Person getPerson(@PathVariable("id") int id) {
-        return adminService.findById(id);
+    public PersonDTO getPerson(@PathVariable("id") int id) {
+        return convertToPersonDTO(adminService.findById(id));
     }
-
 
     @GetMapping("/login")
     public void loginPage() {
     }
 
     @GetMapping("/registration")
-    public void registrationPage(@ModelAttribute("person") Person person) {
-
+    public void registrationPage(@ModelAttribute("person") PersonDTO personDTO) {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Person person, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             StringBuilder errorMsg = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();
@@ -66,7 +70,7 @@ public class AuthController {
             }
             throw new PersonNotCreatedException(errorMsg.toString());
         }
-        registrationService.register(person);
+        registrationService.register(convertToPerson(personDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -82,5 +86,13 @@ public class AuthController {
         PersonErrorResponse response = new PersonErrorResponse("Person with this id was`t found",
                 System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    private Person convertToPerson(PersonDTO personDTO) {
+        return modelMapper.map(personDTO, Person.class);
+    }
+
+    private PersonDTO convertToPersonDTO(Person person){
+        return modelMapper.map(person, PersonDTO.class);
     }
 }
