@@ -1,13 +1,7 @@
 package by.andrey.springcorse.ShopApp.dto;
 
-import by.andrey.springcorse.ShopApp.models.Person;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
 
 public class PersonDTO {                //слоя между сущностью и контроллером
 
@@ -54,6 +48,4 @@ public class PersonDTO {                //слоя между сущностью
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
 }

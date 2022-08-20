@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -21,9 +20,7 @@ import java.util.List;
 public class  AuthController {
 
     private final RegistrationService registrationService;
-
     private final PersonDtoService personDtoService;
-
 
     @Autowired
     public AuthController(RegistrationService registrationService, PersonDtoService personDtoService) {

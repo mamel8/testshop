@@ -15,7 +15,6 @@ public class PersonDtoService {
         this.modelMapper = modelMapper;
     }
 
-
     public Person convertToPerson(PersonDTO personDTO) {
         return modelMapper.map(personDTO, Person.class);
     }

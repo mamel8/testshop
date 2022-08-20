@@ -4,7 +4,6 @@ import by.andrey.springcorse.ShopApp.services.PersonDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,8 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @EnableWebSecurity
 @Configuration
@@ -32,15 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //конфигурируем сам спринг секурити
         // конфигурируем авторизацию
         http.
-               cors(Customizer.withDefaults()).
+             //   cors(Customizer.withDefaults()).
                 csrf().disable()
-          //      csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .authorizeRequests()
-
-             //   .antMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
+                //   .antMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
                 .antMatchers("/**").permitAll()
-
-          //    .antMatchers("/auth/login", "/error", "/auth/registration", "/auth/check", "/auth/check/*").permitAll()  // разрешенный страницы для всех
+                //    .antMatchers("/auth/login", "/error", "/auth/registration", "/auth/check", "/auth/check/*").permitAll()  // разрешенный страницы для всех
                 .anyRequest().hasAnyRole("USER", "ADMIN")           //все остальные страницы доступны авторизированным
                 .and()
                 .formLogin().loginPage("/auth/registration") // стартует с этой страницы

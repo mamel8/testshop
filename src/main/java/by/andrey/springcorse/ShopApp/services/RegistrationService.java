@@ -26,5 +26,4 @@ public class RegistrationService {
         person.setRegistration(LocalDateTime.now());
         peopleRepository.save(person);
     }
-
 }

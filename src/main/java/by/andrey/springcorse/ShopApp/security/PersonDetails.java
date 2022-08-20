@@ -1,7 +1,6 @@
 package by.andrey.springcorse.ShopApp.security;
 
 import by.andrey.springcorse.ShopApp.models.Person;
-import by.andrey.springcorse.ShopApp.models.PersonRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

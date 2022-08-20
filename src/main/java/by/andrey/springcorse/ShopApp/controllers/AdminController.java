@@ -5,13 +5,11 @@ import by.andrey.springcorse.ShopApp.dto.PersonDtoService;
 import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
@@ -34,11 +32,11 @@ public class  AdminController {
 
     @GetMapping("/check")                // ТЕСТ метод   --- after DELETE
     public List<PersonDTO> adminCheck(){
-        List<Person> list = adminService.findAll();
         List<PersonDTO> list2 = new ArrayList<>();
-        for (Person s: list ) {
-            list2.add(personDtoService.convertToPersonDTO(s));
-        }
+        adminService.findAll()
+                .stream()
+                .map(s->list2.add(personDtoService.convertToPersonDTO(s)))
+                .collect(Collectors.toList());
         return list2;
     }
 
