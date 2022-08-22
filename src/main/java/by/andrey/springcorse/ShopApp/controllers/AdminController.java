@@ -2,7 +2,6 @@ package by.andrey.springcorse.ShopApp.controllers;
 
 import by.andrey.springcorse.ShopApp.dto.PersonDTO;
 import by.andrey.springcorse.ShopApp.dto.PersonDtoService;
-import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +27,11 @@ public class  AdminController {
     @GetMapping
     public void adminPage(){
         adminService.doAdminStuff();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteById(@PathVariable("id") int id){
+        adminService.deleteById(id);
     }
 
     @GetMapping("/check")                // ТЕСТ метод   --- after DELETE

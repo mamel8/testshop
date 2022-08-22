@@ -48,4 +48,5 @@ public class PersonDTO {                //слоя между сущностью
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

@@ -12,7 +12,7 @@
 	<artifactId>FirstDecurityApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>FirstDecurityApp</name>
-	<description>Firs Sprinf Boot app with Spring Security</description>
+	<description>app with Spring Security</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -22,6 +22,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>

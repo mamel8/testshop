@@ -33,4 +33,8 @@ public class AdminService {
     public List<Person> findAll() {
         return peopleRepository.findAll();
     }
+
+    public void deleteById(int id) {
+        peopleRepository.deleteById(id);
+    }
 }

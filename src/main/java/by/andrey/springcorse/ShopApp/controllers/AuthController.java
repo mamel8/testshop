@@ -2,6 +2,7 @@ package by.andrey.springcorse.ShopApp.controllers;
 
 import by.andrey.springcorse.ShopApp.dto.PersonDTO;
 import by.andrey.springcorse.ShopApp.dto.PersonDtoService;
+import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.services.RegistrationService;
 import by.andrey.springcorse.ShopApp.util.PersonErrorResponse;
 import by.andrey.springcorse.ShopApp.util.PersonNotCreatedException;
@@ -37,7 +38,7 @@ public class  AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult){
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Person person, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             StringBuilder errorMsg = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();
@@ -48,7 +49,7 @@ public class  AuthController {
             }
             throw new PersonNotCreatedException(errorMsg.toString());
         }
-        registrationService.register(personDtoService.convertToPerson(personDTO));
+        registrationService.register(person);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

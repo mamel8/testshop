@@ -1,5 +1,7 @@
 package by.andrey.springcorse.ShopApp.models;
 
+import jdk.jfr.Timestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
@@ -13,27 +15,29 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
- //   @NotEmpty
-  //  @Size(min = 3, max = 20, message = "The name must be in the range of 3 to 20 characters")
-    @Column(name = "name")
+    @NotEmpty
+    @Size(min = 3, max = 25, message = "The name must be in the range of 3 to 20 characters")
+    @Column(name = "name", unique = true, length = 25)
     private String name;
 
-    @Column(name = "email")
- //   @Email
-  //  @Size(min = 5, message = "Enter your email")
+    @Column(name = "email", unique = true, length = 35)
+    @Email
+    @NotEmpty
+    @Size(min = 5, message = "Enter your email")
     private String email;
 
     @Column(name = "registration")
+    @Timestamp
     private LocalDateTime registration;
 
-    @Column(name = "phone")
+    @Column(name = "phone", length = 20)
     private String phone;
 
-    @Column(name = "password")
-  //  @Size(min = 3)
+    @Column(name = "password", length = 100)
+    @Size(min = 3)
     private String password;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 10)
     @Enumerated(EnumType.STRING)
     private PersonRole role;
 
