@@ -1,10 +1,21 @@
 package by.andrey.springcorse.ShopApp.util;
 
-public class PersonErrorResponse {
+
+
+
+
+
+
+
+
+
+
+public class ErrorResponse {
     private String message;
     private long timestamp;
 
-    public PersonErrorResponse(String message, long timestamp) {
+
+    public ErrorResponse(String message, long timestamp) {
         this.message = message;
         this.timestamp = timestamp;
     }
@@ -24,4 +35,6 @@ public class PersonErrorResponse {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+
 }

@@ -1,12 +1,11 @@
 package by.andrey.springcorse.ShopApp.controllers;
 
-import by.andrey.springcorse.ShopApp.dto.PersonDTO;
-import by.andrey.springcorse.ShopApp.dto.PersonDtoService;
 import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.services.RegistrationService;
-import by.andrey.springcorse.ShopApp.util.PersonErrorResponse;
-import by.andrey.springcorse.ShopApp.util.PersonNotCreatedException;
+import by.andrey.springcorse.ShopApp.util.ErrorResponse;
+import by.andrey.springcorse.ShopApp.util.NotCreatedException;
 import by.andrey.springcorse.ShopApp.util.PersonNotFoundException;
+import by.andrey.springcorse.ShopApp.util.ValidatorPerson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,21 +20,14 @@ import java.util.List;
 public class  AuthController {
 
     private final RegistrationService registrationService;
-    private final PersonDtoService personDtoService;
+    private final ValidatorPerson validatorPerson;
 
     @Autowired
-    public AuthController(RegistrationService registrationService, PersonDtoService personDtoService) {
+    public AuthController(RegistrationService registrationService, ValidatorPerson validatorPerson) {
         this.registrationService = registrationService;
-        this.personDtoService = personDtoService;
+        this.validatorPerson = validatorPerson;
     }
 
-    @GetMapping("/login")
-    public void loginPage() {
-    }
-
-    @GetMapping("/registration")
-    public void registrationPage(@ModelAttribute("person") PersonDTO personDTO) {
-    }
 
     @PostMapping("/registration")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid Person person, BindingResult bindingResult){
@@ -47,23 +39,25 @@ public class  AuthController {
                         .append(" - ").append(error.getDefaultMessage())
                         .append("; ");
             }
-            throw new PersonNotCreatedException(errorMsg.toString());
+            throw new NotCreatedException(errorMsg.toString());
         }
         registrationService.register(person);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @ExceptionHandler
-    private ResponseEntity<PersonErrorResponse> handleException(PersonNotCreatedException e){
-        PersonErrorResponse response = new PersonErrorResponse(e.getMessage(),
+    private ResponseEntity<ErrorResponse> handleException(NotCreatedException e){
+        ErrorResponse response = new ErrorResponse(e.getMessage(),
                 System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    private ResponseEntity<PersonErrorResponse> handleException(PersonNotFoundException e){
-        PersonErrorResponse response = new PersonErrorResponse("Person with this id was`t found",
+    private ResponseEntity<ErrorResponse> handleException(PersonNotFoundException e){
+        ErrorResponse response = new ErrorResponse("Person with this id was`t found",
                 System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+
 }
