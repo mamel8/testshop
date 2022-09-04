@@ -10,16 +10,18 @@ public class ProductDTO {
     @NotEmpty                   //а может и не нужен обойтись ID только
     private String index;
 
+    private int id;
+
     @NotEmpty
     @Size(min = 3, max = 50, message = "The name must be in the range of 3 to 50 characters")
     private String name;
 
-    @Column(name = "type")      // типы продумать нужно ENUM сделать по видам или отдельную Таблицк на №группы товаров 2-3столбца
+    @Column(name = "type")
+    // типы продумать нужно ENUM сделать по видам или отдельную Таблицк на №группы товаров 2-3столбца
     private String type;
 
     @NotEmpty
     private String unit;         //Единица измерения
-
 
     private Double price;
 
@@ -83,5 +85,13 @@ public class ProductDTO {
 
     public void setMaker(String maker) {
         this.maker = maker;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

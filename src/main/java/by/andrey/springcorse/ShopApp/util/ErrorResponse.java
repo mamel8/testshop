@@ -1,15 +1,4 @@
 package by.andrey.springcorse.ShopApp.util;
-
-
-
-
-
-
-
-
-
-
-
 public class ErrorResponse {
     private String message;
     private long timestamp;

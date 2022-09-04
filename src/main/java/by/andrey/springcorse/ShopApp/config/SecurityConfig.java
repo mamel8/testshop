@@ -11,6 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 
 @EnableWebSecurity
@@ -27,25 +33,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //конфигурируем сам спринг секурити
-        // конфигурируем авторизацию
-        http.
-             //   cors(Customizer.withDefaults()).
-                csrf().disable()
+
+        http
+        //      .cors().configurationSource(corsConfigurationSource()).and()
+                .csrf().disable()
                 .authorizeRequests()
-                //   .antMatchers("/admin").hasAnyRole("ADMIN", "OWNER")
                 .antMatchers("/**").permitAll()
-                //    .antMatchers("/auth/login", "/error", "/auth/registration", "/auth/check", "/auth/check/*").permitAll()  // разрешенный страницы для всех
-                .anyRequest().hasAnyRole("USER", "ADMIN")           //все остальные страницы доступны авторизированным
+                .anyRequest().hasAuthority("USER")           //все остальные страницы доступны авторизированным
                 .and()
-                .formLogin().loginPage("/auth/registration") // стартует с этой страницы
+                .formLogin().loginPage("/**") // стартует с этой страницы
                 .loginProcessingUrl("/process_login")               //сюда отправляются данные при входе (входящие поля должны быть обязательно username / password)
-                .defaultSuccessUrl("/auth/registration", true)  // перекидывает сюда после удачного входа
-                .failureUrl("/auth/login?error")
+                .defaultSuccessUrl("/admin/check", true)  // перекидывает сюда после удачного входа
+                .failureUrl("/login?error")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/auth/login");       //куда выкидывает после логаута
+                .logoutSuccessUrl("/login");       //куда выкидывает после логаута
     }
 
     // НАСТРАИВАЕМ аутентификацию
@@ -54,22 +57,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(personDetailsService)
                 .passwordEncoder(getPasswordEncoder());
     }
+ /*   @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("/*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }*/
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-  /*  @Bean
-    public WebMvcConfigurer corsConfig() {
-        return new WebMvcConfigurer(){
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "http://localhost:8080");
-            }
-        };
-    }*/
+
 }
+
 
 
