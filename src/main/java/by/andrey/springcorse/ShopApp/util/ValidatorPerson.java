@@ -25,11 +25,11 @@ public class ValidatorPerson implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
-
-
-        if(peopleRepository.findByName(person.getName()).isPresent())
-            errors.rejectValue("name", "Name is Busy");
-        if(peopleRepository.findByEmail(person.getEmail()).isPresent())
-            errors.rejectValue("email", "email is Busy");
+        if(peopleRepository.findByNameOrEmail(person.getName(), person.getEmail()).isPresent()) {
+           errors.rejectValue("name", "", "This data is busy");
+        }
+      /*  if(peopleRepository.findByEmail(person.getEmail()).isPresent()) {
+            errors.rejectValue("email", "Email is busy");
+        }*/
     }
 }

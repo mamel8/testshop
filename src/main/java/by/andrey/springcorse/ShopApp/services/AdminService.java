@@ -18,7 +18,7 @@ public class AdminService {
         this.peopleRepository = peopleRepository;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")           // ТЕСТ МЕТОД -------after DELETE
+  //  @PreAuthorize("hasRole('ADMIN')")           // ТЕСТ МЕТОД -------after DELETE
     public void doAdminStuff(){
         System.out.println("Only admin here");
     }
@@ -34,6 +34,7 @@ public class AdminService {
         return peopleRepository.findAll();
     }
 
+  //  @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(int id) {
         peopleRepository.deleteById(id);
     }

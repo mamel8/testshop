@@ -2,45 +2,37 @@ package by.andrey.springcorse.ShopApp.controllers;
 
 import by.andrey.springcorse.ShopApp.models.Person;
 import by.andrey.springcorse.ShopApp.services.RegistrationService;
-import by.andrey.springcorse.ShopApp.util.ErrorResponse;
-import by.andrey.springcorse.ShopApp.util.NotCreatedException;
-import by.andrey.springcorse.ShopApp.util.PersonNotFoundException;
-import by.andrey.springcorse.ShopApp.util.ValidatorPerson;
+import by.andrey.springcorse.ShopApp.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
-import java.util.List;
 
+import javax.validation.Valid;
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
-public class  AuthController {
+public class AuthController {
 
     private final RegistrationService registrationService;
+
+    private final ExceptionReg exceptionReg;
+
     private final ValidatorPerson validatorPerson;
 
     @Autowired
-    public AuthController(RegistrationService registrationService, ValidatorPerson validatorPerson) {
+    public AuthController(RegistrationService registrationService,
+                          ExceptionReg exceptionReg, ValidatorPerson validatorPerson) {
         this.registrationService = registrationService;
+        this.exceptionReg = exceptionReg;
         this.validatorPerson = validatorPerson;
     }
 
-
     @PostMapping("/registration")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Person person, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            StringBuilder errorMsg = new StringBuilder();
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error: errors) {
-                errorMsg.append(error.getField())
-                        .append(" - ").append(error.getDefaultMessage())
-                        .append("; ");
-            }
-            throw new NotCreatedException(errorMsg.toString());
-        }
+    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Person person, BindingResult bindingResult) {
+        validatorPerson.validate(person, bindingResult);
+        exceptionReg.except(bindingResult);
         registrationService.register(person);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -58,6 +50,4 @@ public class  AuthController {
                 System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
-
-
 }
