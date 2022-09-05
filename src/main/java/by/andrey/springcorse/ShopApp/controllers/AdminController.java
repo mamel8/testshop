@@ -6,6 +6,7 @@ import by.andrey.springcorse.ShopApp.models.Orders;
 import by.andrey.springcorse.ShopApp.services.AdminService;
 import by.andrey.springcorse.ShopApp.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,10 +30,6 @@ public class  AdminController {
         this.ordersService = ordersService;
     }
 
-    @GetMapping
-    public void adminPage(){
-        adminService.doAdminStuff();
-    }
 
     @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable("id") int id){
@@ -49,6 +46,8 @@ public class  AdminController {
         return list2;
     }
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/check/{id}")
     public PersonDTO getPerson(@PathVariable("id") int id) {
         return personDtoService.convertToPersonDTO(adminService.findById(id));

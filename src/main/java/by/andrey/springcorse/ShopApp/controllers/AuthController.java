@@ -44,10 +44,13 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(PersonNotFoundException e){
         ErrorResponse response = new ErrorResponse("Person with this id was`t found",
                 System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+
 }

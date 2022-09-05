@@ -64,7 +64,7 @@ public class Person {
     private LocalDateTime registration;
 
     @Column(name = "is_Enabled")
-    private boolean isEnabled;
+    private boolean isEnabled = true;
 
 /*    @OneToMany(mappedBy = "costumer_id")
     private List<Orders> costumerOrder;

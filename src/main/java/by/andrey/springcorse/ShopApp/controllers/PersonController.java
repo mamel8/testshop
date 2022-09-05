@@ -13,9 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -43,9 +42,21 @@ public class PersonController {
         return productService.findAllType();
     }
 
+    @GetMapping("/{id}")
+    public List<Product> checkProductByTypeProduct(@PathVariable Integer id){
+        return productService.findProdByType(id);
+    }
+
+
+
     @GetMapping("/products")
     public List<Product> checkAllProd(){
         return productService.findAll();
+    }
+
+    @GetMapping("/products/{id}")
+    public Product checkProductById(@PathVariable Integer id){
+        return productService.findProductById(id);
     }
 
     @PostMapping("/add")

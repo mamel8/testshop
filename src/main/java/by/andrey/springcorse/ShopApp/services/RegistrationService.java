@@ -33,10 +33,7 @@ public class RegistrationService {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRole(PersonRole.USER);
         person.setRegistration(LocalDateTime.now());
-
             peopleRepository.save(person);
-
-
     }
 
     public void addProduct(Product product) {

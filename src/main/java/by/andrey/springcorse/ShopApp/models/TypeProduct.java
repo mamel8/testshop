@@ -16,8 +16,8 @@ public class TypeProduct {
     @Column(name = "name")
     private String name;
 
-  /*  @OneToMany(mappedBy = "type")           // разбираться с запросом. ео убираю все работает
-    private List<Product> product;*/
+    @OneToMany(mappedBy = "type")           // разбираться с запросом. ео убираю все работает
+    private List<Product> product;
 
 
     public TypeProduct() {
